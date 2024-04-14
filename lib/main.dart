@@ -1,3 +1,6 @@
+
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
@@ -5,6 +8,7 @@ import 'package:weather_app/bloc/weather_bloc_bloc.dart';
 import 'package:weather_app/screens/home_screen.dart';
 
 void main() {
+  
   runApp(const MyApp());
 }
 
@@ -17,8 +21,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: FutureBuilder<Position>(
+        
         future: _determinePosition(),
         builder: (context, snapshot) {
+
+          
           if (snapshot.connectionState == ConnectionState.waiting) {
             // Показываем индикатор загрузки, пока ждем данные
             return const Scaffold(
@@ -42,8 +49,8 @@ class MyApp extends StatelessWidget {
             );
           } else {
             // Для других случаев, например, если данные null
-            return Scaffold(
-              body: Center(
+            return const Scaffold(
+              body:  Center(
                 child: Text('No data available'),
               ),
             );
@@ -60,6 +67,7 @@ class MyApp extends StatelessWidget {
 /// When the location services are not enabled or permissions
 /// are denied the `Future` will return an error.
 Future<Position> _determinePosition() async {
+  log('🚀 get position');
   bool serviceEnabled;
   LocationPermission permission;
 
@@ -90,6 +98,7 @@ Future<Position> _determinePosition() async {
     return Future.error(
       'Location permissions are permanently denied, we cannot request permissions.');
   } 
+
 
   // When we reach here, permissions are granted and we can
   // continue accessing the position of the device.
